@@ -33,14 +33,20 @@ def getCommitInfo(url):
     class_prop = {"class":"commits-listing commits-listing-padded js-navigation-container js-active-navigation-container"}
     commits_table = soup.find('div', attrs=class_prop)
     
+    new_names = []
+    for text_box in commits_table.find_all('p', attrs={'class': 'commit-title'}):
+        for text in text_box.find('a', attrs={'class': "message"}):
+        #    print(text.attrs['title'])
+            new_names.append(text)
+    
     # Commit title
-    names = []
-    for title in commits_table.find_all('a', attrs={'class': "message"}):
-        names.append(title.attrs['title'])
+    #names = []
+    #for title in commits_table.find_all('a', attrs={'class': "message"}):
+    #    names.append(title.attrs['title'])
     
     # Commit time
     times = []
     for time in commits_table.find_all('relative-time'):
         times.append(time.attrs['datetime'])
-    
-    return names, times
+
+    return new_names, times
