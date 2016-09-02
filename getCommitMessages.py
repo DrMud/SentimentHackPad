@@ -1,3 +1,9 @@
+try:
+    from urllib.request import urlopen, Request
+except ImportError:
+    from urllib2 import urlopen, Request
+from bs4 import BeautifulSoup
+
 def getCommitInfo(url):
     """
     Get all the commits name and the time from a GitHub repo
@@ -19,9 +25,9 @@ def getCommitInfo(url):
     url += 'commits/master'
     
     # Get the url
-    html = requests.get(url)
+    html = urlopen(url)
     # Create the parser
-    soup = BeautifulSoup(html.text, 'html.parser')
+    soup = BeautifulSoup(html.read(), 'html.parser')
     
     # Table with all the commits
     class_prop = {"class":"commits-listing commits-listing-padded js-navigation-container js-active-navigation-container"}
@@ -38,4 +44,3 @@ def getCommitInfo(url):
         times.append(time.attrs['datetime'])
     
     return names, times
-
